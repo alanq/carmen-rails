@@ -231,7 +231,11 @@ module ActionView
             add_default_name_and_id(html_options)
             options[:include_blank] ||= true unless options[:prompt]
 
-            value = options[:selected] ? options[:selected] : value(object)
+            begin
+              value = options[:selected] ? options[:selected] : value(object)
+            rescue ArgumentError => err
+              value = ''
+            end
             priority_regions = options[:priority] || []
             opts = add_options(region_options_for_select(parent_region.subregions, value, 
                                                         :priority => priority_regions), 
